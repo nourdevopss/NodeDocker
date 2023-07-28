@@ -1,0 +1,50 @@
+version: "3.8"  
+
+services:
+
+  mongodb:
+    image: 'mongo'  # Specifies the base Docker image for MongoDB.
+    container_name: mongodb  # Sets the custom name for the MongoDB container.
+    volumes:
+      - data:/data/db  # Mounts the named volume 'data' to persist MongoDB data.
+
+  # we can set environement variable this way:
+
+    # environment: 
+    #   MONGO_INITDB_ROOT_USERNAME: max
+    #   MONGO_INITDB_ROOT_PASSWORD: secret
+
+  # or by creating an env file:
+    env_file:
+      - ./env/mongo.env  # Loads environment variables from the specified file.
+
+  backend:
+    build:
+      context: ./backend  # Specifies the directory containing the backend's Dockerfile.
+      dockerfile: Dockerfile  # Specifies the name of the Dockerfile for the backend.
+    ports:
+      - '80:80'  # Maps port 80 of the host to port 80 of the backend container.
+    volumes:
+      - logs:/app/logs  # Mounts the named volume 'logs' for persisting backend logs.
+      - ./backend:/app  # Binds the local 'backend' directory to '/app' in the container.
+      - /app/node_modules  # Mounts the 'node_modules' volume to avoid overwriting dependencies.
+    env_file:
+      - ./env/backend.env  # Loads environment variables from the specified file.
+    depends_on:  # Specifies that this service depends on the 'mongodb' container.
+      - mongodb
+
+  frontend:
+    build: ./frontend  # Specifies the directory containing the frontend's Dockerfile.
+    ports:
+      - '3000:3000'  # Maps port 3000 of the host to port 3000 of the frontend container.
+    volumes:
+      - ./frontend/src:/app/src  # Binds the local 'frontend/src' directory to '/app/src' in the container.
+    stdin_open: true  # Allowing user interaction with the frontend.
+    tty: true  # Enabling a better interactive experience.
+    depends_on:
+      - backend  
+
+volumes:  # Defines the named volumes used by the containers.
+  data:  
+  logs:  
+
