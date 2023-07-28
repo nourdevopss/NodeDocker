@@ -6,6 +6,8 @@ Ce projet vise à containeriser une application web de démonstration permettant
 
 ### Prérequis pour chaque conteneur
 
+<img width="942" alt="Screenshot 2023-07-28 at 19 48 23" src="https://github.com/nourdevopss/NodeDocker/assets/120333964/9d146767-42e8-4b09-b8e7-633ccf7c4476">
+
 **Conteneur MongoDB**
 - **Persistance des données** : Il est essentiel que les données de la base de données MongoDB persistent même si le conteneur est arrêté ou supprimé. Pour cela, nous utiliserons un volume nommé pour stocker les données de manière durable.
 - **Accès limité** : Pour améliorer la sécurité du système, nous limiterons l'accès à la base de données MongoDB en utilisant des variables d'environnement.
