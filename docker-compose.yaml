@@ -14,7 +14,7 @@ services:
     #   MONGO_INITDB_ROOT_USERNAME: max
     #   MONGO_INITDB_ROOT_PASSWORD: secret
 
-  # or by creating an env file:
+  # or by creating an env file: 
     env_file:
       - ./env/mongo.env  # Loads environment variables from the specified file.
 
